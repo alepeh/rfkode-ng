@@ -25,3 +25,8 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Hosting
+The repository contains a cloudformation template to setup static hosting on AWS making use of Route 53, Cloudfront and S3. A prerequisite to run the template is to setup a hosted zone in Route 53 as well as a certificate for your domain in ACM.
+Create Public hosted zone using a domain name of your choosing.
+If your domain is currently hosted by a different provider, you need to update the DNS configuration and add the Route 53 nameservers as NS records to your domain.
