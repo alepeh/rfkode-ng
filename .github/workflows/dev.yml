@@ -21,6 +21,9 @@ jobs:
               
             - name: Building the Application
               run: npm run build
+              env: 
+                AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+                AUTH0_CLIENTID: ${{ secrets.AUTH0_CLIENTID }}
             
             - name: Upload to S3
               uses: jakejarvis/s3-sync-action@v0.5.0
