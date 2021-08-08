@@ -43,3 +43,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Angular Environment variables as they will be generated and may contain secrets
+environment.prod.ts
+environment.ts
+.env

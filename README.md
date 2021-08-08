@@ -30,3 +30,16 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 The repository contains a cloudformation template to setup static hosting on AWS making use of Route 53, Cloudfront and S3. A prerequisite to run the template is to setup a hosted zone in Route 53 as well as a certificate for your domain in ACM.
 Create Public hosted zone using a domain name of your choosing.
 If your domain is currently hosted by a different provider, you need to update the DNS configuration and add the Route 53 nameservers as NS records to your domain.
+
+## Authentication
+Is delegated to auth0.
+The auth0 client needs to be initiaöized with the domain and clientId that you get from the auth0 management dashboard for your app.
+These values should be put in a ```.env``` file locally.
+
+```
+AUTH0_CLIENTID=
+AUTH0_DOMAIN=
+```
+The github action looks for these values in the repository secrets and sets them as environment values during build.
+The setEnv.ts script generates the angular environment files and sets the values so we can use them to initialize the client.
+[github source for setEnv.ts](https://gist.github.com/richierich25/ba4170ef5bdcc4ea3739bdec3c04e97d#file-setenv-ts) 
