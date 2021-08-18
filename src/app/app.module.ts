@@ -8,11 +8,20 @@ import { environment } from '../environments/environment';
 
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './auth-button/auth-button.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RfkNavComponent } from './rfk-nav/rfk-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthButtonComponent
+    AuthButtonComponent,
+    RfkNavComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +36,13 @@ import { AuthButtonComponent } from './auth-button/auth-button.component';
       domain: environment.AUTH0_DOMAIN,
       clientId: environment.AUTH0_CLIENTID
     }),
+    BrowserAnimationsModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
