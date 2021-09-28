@@ -34,7 +34,8 @@ import { MatListModule } from '@angular/material/list';
     }),
     AuthModule.forRoot({
       domain: environment.AUTH0_DOMAIN,
-      clientId: environment.AUTH0_CLIENTID
+      clientId: environment.AUTH0_CLIENTID,
+      audience : environment.AUTH0_AUDIENCE
     }),
     BrowserAnimationsModule,
     LayoutModule,

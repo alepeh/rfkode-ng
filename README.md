@@ -43,3 +43,5 @@ AUTH0_DOMAIN=
 The github action looks for these values in the repository secrets and sets them as environment values during build.
 The setEnv.ts script generates the angular environment files and sets the values so we can use them to initialize the client.
 [github source for setEnv.ts](https://gist.github.com/richierich25/ba4170ef5bdcc4ea3739bdec3c04e97d#file-setenv-ts) 
+
+## State Management

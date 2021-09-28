@@ -24,6 +24,7 @@ jobs:
               env: 
                 AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
                 AUTH0_CLIENTID: ${{ secrets.AUTH0_CLIENTID }}
+                AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
             
             - name: Upload to S3
               uses: jakejarvis/s3-sync-action@v0.5.0
