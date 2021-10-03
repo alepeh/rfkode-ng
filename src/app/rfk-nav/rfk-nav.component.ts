@@ -13,7 +13,7 @@ import { DatabaseService } from '../database.service';
 export class RfkNavComponent {
 
   token: String = '';
-  schemas: String[] = [];
+  schemas: any[] = [];
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -28,7 +28,7 @@ export class RfkNavComponent {
     })
     database.allSchemas().then(schemaDocs => {
       schemaDocs.rows.map(schemaDoc => {
-        this.schemas.push((schemaDoc.doc as any).name);
+        this.schemas.push(schemaDoc.doc as any);
       })
     })
   }
