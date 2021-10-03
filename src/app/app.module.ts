@@ -16,12 +16,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { TableComponent } from './table/table.component';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthButtonComponent,
-    RfkNavComponent
+    RfkNavComponent,
+    TableComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
