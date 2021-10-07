@@ -20,6 +20,7 @@ import { TableComponent } from './table/table.component';
 import { FormComponent } from './form/form.component';
 import { RelationshipModalComponent } from './relationship-modal/relationship-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SyncDetailComponent } from './sync-detail/sync-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     RfkNavComponent,
     TableComponent,
     FormComponent,
-    RelationshipModalComponent
+    RelationshipModalComponent,
+    SyncDetailComponent
   ],
   imports: [
     BrowserModule,

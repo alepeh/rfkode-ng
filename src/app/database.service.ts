@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import PouchDB from 'pouchdb';
-import { store } from './store';
+import { eventDispatcher, store } from './store';
+import { ActionTypes } from './store/rfkode.actions';
 
 export interface Schema {
   _id: string,
@@ -14,11 +15,15 @@ export class DatabaseService {
 
   DBNAME = 'rfkode';
   localDb = new PouchDB(this.DBNAME);
+  token: string = "";
 
   constructor() { 
     store.subscribe((state) => {
+        console.log("State changed")
         const {token} = state;
-        if(token){
+        if(token && (this.token != token)){
+            console.log("token is different");
+            this.token = token;
             this.sync(token);
         }
       })
@@ -81,25 +86,25 @@ sync(token: string) {
     this.localDb.sync(remoteDb, {live: true, retry: true})
             .on('change', () => {
             this._syncLog('change', "");
-            //store.state.syncState = {loading: true, error: ''};
+            eventDispatcher.next({type: ActionTypes.SYNC_STATE_CHANGED, payload: {loading : true, error: ''}})
           }).on('paused', (err) => {
             this._syncLog('paused', err);
             if(!err){
-                //store.state.syncState = {loading: false, error: ''};
+                eventDispatcher.next({type: ActionTypes.SYNC_STATE_CHANGED, payload: {loading : false, error: ''}})
             }
             else {
-                //store.state.syncState = {loading: false, error: err};
+                eventDispatcher.next({type: ActionTypes.SYNC_STATE_CHANGED, payload: {loading : false, error: err}})
             }
           }).on('active', () => {
             this._syncLog('active', "");
-            //store.state.syncState = {loading: true, error: ''};
+            eventDispatcher.next({type: ActionTypes.SYNC_STATE_CHANGED, payload: {loading : true, error: ''}})
           }).on('denied', (err) => {
             this._syncLog('denied', err);
           }).on('complete', () => {
             this._syncLog('complete', "");
           }).on('error', (err) => {
             this._syncLog('error', err);
-            //store.state.syncState = {loading: false, error: err};
+            eventDispatcher.next({type: ActionTypes.SYNC_STATE_CHANGED, payload: {loading : false, error: err}})
           });
 }
 
