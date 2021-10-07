@@ -55,6 +55,10 @@ allDocs(){
     });
 }
 
+put(document: any){
+    return this.localDb.put(document);
+}
+
 info(){
     return this.localDb.info();
 }

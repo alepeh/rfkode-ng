@@ -1,1 +1,13 @@
-<p *ngFor="let document of documents">{{document._id}}</p>
+<mat-list>
+    <a mat-list-item [routerLink]="['/form/',document._id, {schemaId: schema._id}]" *ngFor="let document of documents">
+        {{getTitle(document)}}
+    </a>
+</mat-list>
+<div class="fab-button">
+    <button class="fab-button" mat-fab color="primary" (click)="editSchema()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-fab color="primary" (click)="addDocument()">
+        <mat-icon>add</mat-icon>
+      </button>
+  </div>

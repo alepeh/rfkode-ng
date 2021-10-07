@@ -23,7 +23,9 @@
     "@angular/router": "~12.1.0",
     "@angular/service-worker": "~12.1.0",
     "@auth0/auth0-angular": "^1.6.0",
+    "expr-eval": "^2.0.2",
     "pouchdb": "^7.2.2",
+    "rfkode-form": "0.0.25",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { TableComponent } from './table/table.component';
 import { FormComponent } from './form/form.component';
+import { RelationshipModalComponent } from './relationship-modal/relationship-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -25,11 +27,13 @@ import { FormComponent } from './form/form.component';
     AuthButtonComponent,
     RfkNavComponent,
     TableComponent,
-    FormComponent
+    FormComponent,
+    RelationshipModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MatDialogModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
@@ -50,6 +54,8 @@ import { FormComponent } from './form/form.component';
     MatListModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [RelationshipModalComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }
