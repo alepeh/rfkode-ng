@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common'
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -21,7 +22,9 @@ export class RfkNavComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private database : DatabaseService) {
+  constructor(private breakpointObserver: BreakpointObserver, 
+    private database : DatabaseService,
+    private location: Location) {
     store.subscribe((state) => {
       const {token} = state;
       this.token = token;
@@ -31,6 +34,10 @@ export class RfkNavComponent {
         this.schemas.push(schemaDoc.doc as any);
       })
     })
+  }
+
+  back(): void {
+    this.location.back();
   }
 
 }

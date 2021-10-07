@@ -1,1 +1,8 @@
-<p>form works!</p>
+<rfkode-form id="form" #rfkform></rfkode-form>
+
+<footer>
+    <div layout="row" layout-align="center center">
+            <span class="spacer"></span>
+            <button mat-button color="primary" [disabled]="!isDirty" (click)="save()">Save</button>
+    </div>
+</footer>
