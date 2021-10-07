@@ -21,7 +21,7 @@ export class FormComponent implements OnInit {
   documentId: string = "";
   schemaId: string = "";
   schema: any;
-  params: any;
+  params: any = {};
   mode: string = "";
 
   displayData: any = {};
@@ -46,7 +46,7 @@ export class FormComponent implements OnInit {
       this.mode = params.get('mode') as string;
       console.log(this.schemaId);
       console.log(this.documentId);
-      //this.params = params.get('params');
+      this.extractAdditionalRouteParams(params);
       if(this.mode === 'NEW'){
          this.setupNewForm();
       }
@@ -54,6 +54,17 @@ export class FormComponent implements OnInit {
          this.loadExistingDocument();
       }
     })
+  }
+
+  private extractAdditionalRouteParams(params: ParamMap){
+    params.keys.filter(param => 
+        param != 'id' &&
+        param != 'schemaId' &&
+        param != 'mode'
+    ).forEach(filterdParam =>
+      this.params[filterdParam]=params.get(filterdParam)
+    )
+    console.dir(this.params);
   }
 
   private async loadSchema(){
@@ -142,6 +153,7 @@ export class FormComponent implements OnInit {
       else {
         console.log("Data change");
         console.dir(ev.detail);
+        this.rfkFormComponent.nativeElement.data = {...this.displayData};
       }
     }
     else {
@@ -234,14 +246,13 @@ export class FormComponent implements OnInit {
       this.save();
       //pass the currentDoc as a parameter so we already have a back-reference in case it has it defined in the schema
       const relatedSchemaDoc : any  = await this.database.getDocument(relatedSchema);
-      let params:any = {};
+      let params:any = {schemaId: relatedSchema, mode: 'NEW'};
       if(relatedSchemaDoc && relatedSchemaDoc.jsonSchema.relationships[extractSchemaNameFromSchemaId(this.documentId)]){
           //params = extractSchemaNameFromSchemaId(this.documentId) + '=' + this.documentId;
           params[extractSchemaNameFromSchemaId(this.documentId)]=this.documentId
-          console.dir(params);
       }
       //getRouter().push('form/schema/' + relatedSchema + '/document/' + relatedRecordId + '/params/' + params + '/mode/NEW');
-      this.router.navigate(["form/" + relatedRecordId, {schemaId: relatedSchema, mode: 'NEW'}]);
+      this.router.navigate(["form/" + relatedRecordId, params]);
     }
   }
 

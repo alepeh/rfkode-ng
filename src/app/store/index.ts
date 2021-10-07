@@ -2,7 +2,7 @@ import { Subject } from "rxjs";
 import { ActionTypes } from "./rfkode.actions";
 
 interface InitialState {
-    token: String
+    token: string
 }
 
 let state: InitialState = {
@@ -21,7 +21,7 @@ eventDispatcher.subscribe((data: Event) => {
     switch (data.type) {
         case ActionTypes.USER_LOGGED_IN:
             state = {
-                token: data.payload as String
+                token: data.payload as string
             }
             store.next(state);
             break;
