@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Parser } from 'expr-eval';
 import { DatabaseService } from '../database.service';
+import { extractSchemaNameFromSchemaId } from '../helpers/formUtils';
 
 @Component({
   selector: 'app-relationship-modal',
@@ -14,7 +15,7 @@ export class RelationshipModalComponent implements OnInit {
 
   @Output() relatedElementAction = new EventEmitter<any>();
 
-  constructor(    public dialogRef: MatDialogRef<RelationshipModalComponent>,
+  constructor( public dialogRef: MatDialogRef<RelationshipModalComponent>,
     private database: DatabaseService,
     @Inject(MAT_DIALOG_DATA) public data: { 
     relatedDocumentFieldName: string, 
@@ -46,6 +47,26 @@ export class RelationshipModalComponent implements OnInit {
 
   onNewRelatedElement(): void {
     const detail: any = { action: "new", property: this.data.relatedDocumentFieldName };
+    this.relatedElementAction.emit(detail);
+    this.dismissModal(detail);
+  }
+
+  async onSelectExistingElement(relatedElementId : string) {
+    //fetch the document and to add a back-reference to
+    let relatedElement : any = await this.database.getDocument(relatedElementId);
+    //fetch the schema to check if it contains a relationship property
+    let relatedSchema = await this.database.getDocument(this.data.relatedSchemaId) as any;
+    console.dir(relatedSchema)
+    let propertyName = extractSchemaNameFromSchemaId(this.data.sourceDocument["_id"]);
+    //if the property is of type array or does not exist, we push the relatedElementId to an array
+    if (!relatedSchema.jsonSchema.properties[propertyName] || relatedSchema.jsonSchema.properties[propertyName].type === 'array') {
+      relatedElement[propertyName] ? relatedElement[propertyName].push(this.data.sourceDocument["_id"])
+        : relatedElement[propertyName] = new Array(this.data.sourceDocument["_id"]);
+    } else {
+      relatedElement[propertyName] = this.data.sourceDocument["_id"];
+    }
+    await this.database.put(relatedElement);
+    const detail: any = { action: "new", property: this.data.relatedDocumentFieldName, value: relatedElementId };
     this.relatedElementAction.emit(detail);
     this.dismissModal(detail);
   }

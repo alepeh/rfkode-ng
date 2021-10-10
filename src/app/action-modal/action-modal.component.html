@@ -1,0 +1,8 @@
+<mat-toolbar>
+    <span>Aktionen</span>
+</mat-toolbar>
+<mat-list>
+    <mat-list-item routerLinkActive="active" *ngFor="let action of data.actions">
+        <app-action-http [data]="data.resolvedData" [config]="action"></app-action-http>
+    </mat-list-item>
+</mat-list>

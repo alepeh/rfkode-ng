@@ -1,7 +1,7 @@
-<mat-toolbar color="primary">
-    <span>My App</span>
+<mat-toolbar>
+    <span>Auswahl</span>
     <span class="example-spacer"></span>
-    <button (click)="onNewRelatedElement()" >
+    <button mat-button (click)="onNewRelatedElement()" >
       New
     </button>
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
@@ -9,5 +9,5 @@
     </button>
   </mat-toolbar>
 <mat-list>
-    <a mat-list-item routerLinkActive="active" *ngFor="let relationshipTarget of relationshipTargets">{{relationshipTarget.label}}</a>
+    <a mat-list-item (click)="onSelectExistingElement(relationshipTarget.id)" routerLinkActive="active" *ngFor="let relationshipTarget of relationshipTargets">{{relationshipTarget.label}}</a>
 </mat-list>
