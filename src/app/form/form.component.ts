@@ -6,6 +6,7 @@ import { expand } from '../helpers/relationship-resolver';
 import { extractSchemaNameFromSchemaId, generateNewDocumentId } from '../helpers/formUtils';
 import { RelationshipModalComponent } from '../relationship-modal/relationship-modal.component';
 import {MatDialog} from '@angular/material/dialog';
+import { ActionModalComponent } from '../action-modal/action-modal.component';
 
 
 @Component({
@@ -223,6 +224,23 @@ export class FormComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data: any)=>{
       console.log("Dialog Ref closed");
       this.handleRelatedElementAction(data);
+    })
+  }
+
+  async openActionModal(){
+    let actions = this.schema['actions'];
+    let resolvedData = await expand(this.persistentData, this.schema, this.database);
+    let dialogRef = this.dialog.open(ActionModalComponent,{
+      height: '400px',
+      width: '600px',
+      data: {
+        resolvedData,
+        actions,
+        db: this.database
+      }
+    });
+    dialogRef.afterClosed().subscribe((data: any)=>{
+      console.log("Action Dialog Ref closed");
     })
   }
 

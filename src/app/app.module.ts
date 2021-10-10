@@ -20,6 +20,8 @@ import { TableComponent } from './table/table.component';
 import { FormComponent } from './form/form.component';
 import { RelationshipModalComponent } from './relationship-modal/relationship-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ActionModalComponent } from './action-modal/action-modal.component';
+import { ActionHttpComponent } from './action-http/action-http.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     RfkNavComponent,
     TableComponent,
     FormComponent,
-    RelationshipModalComponent
+    RelationshipModalComponent,
+    ActionModalComponent,
+    ActionHttpComponent
   ],
   imports: [
     BrowserModule,

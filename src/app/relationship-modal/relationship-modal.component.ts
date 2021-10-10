@@ -14,7 +14,7 @@ export class RelationshipModalComponent implements OnInit {
 
   @Output() relatedElementAction = new EventEmitter<any>();
 
-  constructor(    public dialogRef: MatDialogRef<RelationshipModalComponent>,
+  constructor( public dialogRef: MatDialogRef<RelationshipModalComponent>,
     private database: DatabaseService,
     @Inject(MAT_DIALOG_DATA) public data: { 
     relatedDocumentFieldName: string, 

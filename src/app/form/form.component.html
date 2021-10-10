@@ -1,8 +1,12 @@
 <rfkode-form id="form" #rfkform></rfkode-form>
-
-<footer>
-    <div layout="row" layout-align="center center">
-            <span class="spacer"></span>
-            <button mat-button color="primary" [disabled]="!isDirty" (click)="save()">Save</button>
-    </div>
-</footer>
+<div class="footer">
+    <mat-toolbar>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="openActionModal()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <button mat-icon-button [disabled]="!isDirty" (click)="save()">
+        <mat-icon>save</mat-icon>
+      </button>
+    </mat-toolbar>
+</div>
