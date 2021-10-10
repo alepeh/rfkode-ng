@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Location } from '@angular/common'
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DatabaseService } from '../database.service';
 import 'rfkode-form';
@@ -7,6 +8,7 @@ import { extractSchemaNameFromSchemaId, generateNewDocumentId } from '../helpers
 import { RelationshipModalComponent } from '../relationship-modal/relationship-modal.component';
 import {MatDialog} from '@angular/material/dialog';
 import { ActionModalComponent } from '../action-modal/action-modal.component';
+import { DeleteConfirmComponent } from '../delete-confirm/delete-confirm.component';
 
 
 @Component({
@@ -34,7 +36,8 @@ export class FormComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private database: DatabaseService,
     private router: Router,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private location: Location) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -255,6 +258,7 @@ export class FormComponent implements OnInit {
       const updatedFormData = await expand(this.persistentData, this.schema, this.database);
       console.log("Updated Form Data");
       this.displayData = { ...this.displayData, ...updatedFormData }
+      this.rfkFormComponent.nativeElement.data = {...this.displayData};
     }
     else {
       const relatedSchema = this.schema.jsonSchema.relationships[fieldName].$ref;
@@ -283,6 +287,67 @@ export class FormComponent implements OnInit {
     } else {
       this.persistentData[fieldName] = relatedDocId;
     }
+  }
+
+  @HostListener('window:attachmentChanged', ['$event'])
+  async _onAttachmentChanged(ev: any) {
+    console.log("Attachment changed");
+    this.isDirty = true;
+    if(this.schema['uiSchema'] && this.schema['uiSchema'][ev.detail.property] && this.schema['uiSchema'][ev.detail.property].widget === "signature"){
+        if (!this.persistentData['_attachments']) {
+                this.persistentData._attachments = {};
+              }
+              this.persistentData._attachments[ev.detail.property] = { //filename
+                content_type: ev.detail.value.type,
+                data: ev.detail.value
+              };
+      }
+      else {
+        let randomizedFilename = Math.random().toString(36).replace('0.', '') + '_' + ev.detail.value.name
+        await this.postData("https://enth5xmrexl9ewh.m.pipedream.net", ev.detail.value, ev.detail.value.type, randomizedFilename);
+        this.persistentData[ev.detail.property] = randomizedFilename;
+      }
+  }
+
+  async postData(url = '', file : File, contentType = '', fileName = '') {
+    // Default options are marked with *
+    var dataBase64  = String(await this.toBase64(file));
+    const i = dataBase64.indexOf("base64,")
+    dataBase64 = dataBase64.substring(i+"base64,".length)
+    const bodyData = JSON.stringify({ data : dataBase64, fileType : contentType, fileName : fileName});
+    await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: bodyData// body data type must match "Content-Type" header
+    });
+    //return response.json(); // parses JSON response into native JavaScript objects
+  }
+
+  toBase64 = (file: any) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+
+  async delete(){
+    let actions = this.schema['actions'];
+    let resolvedData = await expand(this.persistentData, this.schema, this.database);
+    let dialogRef = this.dialog.open(DeleteConfirmComponent,{
+      height: '200px',
+      width: '300px',
+    });
+    dialogRef.afterClosed().subscribe((confirm: boolean)=>{
+      if(confirm){
+        this.database.removeDocument(this.documentId, this.persistentData._rev);
+        this.location.back();
+      }
+    })
   }
 
   save() {

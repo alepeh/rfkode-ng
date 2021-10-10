@@ -16,12 +16,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TableComponent } from './table/table.component';
 import { FormComponent } from './form/form.component';
 import { RelationshipModalComponent } from './relationship-modal/relationship-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ActionModalComponent } from './action-modal/action-modal.component';
 import { ActionHttpComponent } from './action-http/action-http.component';
+import { SyncDetailComponent } from './sync-detail/sync-detail.component';
+import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { ActionHttpComponent } from './action-http/action-http.component';
     FormComponent,
     RelationshipModalComponent,
     ActionModalComponent,
-    ActionHttpComponent
+    ActionHttpComponent,
+    SyncDetailComponent,
+    DeleteConfirmComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +61,7 @@ import { ActionHttpComponent } from './action-http/action-http.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

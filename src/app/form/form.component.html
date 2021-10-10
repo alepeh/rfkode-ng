@@ -1,6 +1,9 @@
 <rfkode-form id="form" #rfkform></rfkode-form>
 <div class="footer">
     <mat-toolbar>
+      <button mat-icon-button (click)="delete()">
+        <mat-icon>delete</mat-icon>
+      </button>
         <span class="spacer"></span>
         <button mat-icon-button (click)="openActionModal()">
           <mat-icon>menu</mat-icon>

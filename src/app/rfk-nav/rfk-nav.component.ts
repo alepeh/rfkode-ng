@@ -13,8 +13,8 @@ import { DatabaseService } from '../database.service';
 })
 export class RfkNavComponent {
 
-  token: String = '';
   schemas: any[] = [];
+  syncState: any = {loading: false};
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -26,10 +26,17 @@ export class RfkNavComponent {
     private database : DatabaseService,
     private location: Location) {
     store.subscribe((state) => {
-      const {token} = state;
-      this.token = token;
+      const {syncState} = state;
+      if(syncState.loading != this.syncState.loading){
+        this.syncState.loading = syncState.loading;
+        this.loadAllSchemas();
+      }
     })
-    database.allSchemas().then(schemaDocs => {
+    this.loadAllSchemas();
+  }
+
+  loadAllSchemas(){
+    this.database.allSchemas().then(schemaDocs => {
       schemaDocs.rows.map(schemaDoc => {
         this.schemas.push(schemaDoc.doc as any);
       })

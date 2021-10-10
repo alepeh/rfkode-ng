@@ -1,2 +1,6 @@
-<span (click)="submit()">{{config.title}}<mat-spinner></mat-spinner></span>
-
+<div class="action">
+    <span (click)="submit()">{{config.title}}</span>
+    <mat-spinner diameter="20" *ngIf="responseStatus === 'LOADING'"></mat-spinner>
+    <mat-icon *ngIf="responseStatus === 'SUCCESS'">done</mat-icon>
+    <mat-icon *ngIf="responseStatus === 'ERROR'">sentiment_very_dissatisfied</mat-icon>
+</div>
