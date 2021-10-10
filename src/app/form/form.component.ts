@@ -111,6 +111,7 @@ export class FormComponent implements OnInit {
         console.dir(this.params);
       }
       let expandedData = await expand(this.persistentData, this.schema, this.database);
+      await this.loadGlobalData();
       this.displayData = {...this.displayData, ...expandedData};
       console.dir(this.displayData);
       this.rfkFormComponent.nativeElement.schema = this.schema;
@@ -119,7 +120,6 @@ export class FormComponent implements OnInit {
 
   async loadExistingDocument() {
     await this.loadSchema();
-    await this.loadGlobalData();
     await this.database.getDocument(this.documentId).then(aDocument => {
       this.persistentData = aDocument;
       console.dir(this.persistentData);
@@ -131,7 +131,6 @@ export class FormComponent implements OnInit {
         console.error(error);
       });
     }
-
     //copy the object, otherwise we assign the attachments to the ordinary data properties
     this.displayData = { ...this.displayData, ...resolvedData }
     if (this.persistentData && this.persistentData['_attachments']) {
@@ -139,6 +138,7 @@ export class FormComponent implements OnInit {
         this.displayData[attachmentName] = this.persistentData._attachments[attachmentName]['data'];
       });
     }
+    await this.loadGlobalData();
     this.rfkFormComponent.nativeElement.schema = this.schema;
     this.rfkFormComponent.nativeElement.data = this.displayData;
   }
