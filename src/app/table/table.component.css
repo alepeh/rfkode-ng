@@ -1,5 +1,8 @@
-.fab-button{
-    position: sticky;
-    left: 90%;
-    bottom: 15px;
-  }
+
+.footer {
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  right: 0px;
+  z-index: 100;
+}
