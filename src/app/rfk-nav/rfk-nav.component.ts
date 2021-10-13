@@ -15,6 +15,8 @@ export class RfkNavComponent {
 
   schemas: any[] = [];
   syncState: any = {loading: false};
+  newSchemaName = '';
+
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -40,6 +42,22 @@ export class RfkNavComponent {
       schemaDocs.rows.map(schemaDoc => {
         this.schemas.push(schemaDoc.doc as any);
       })
+    })
+  }
+
+  newSchema(): void {
+    console.log("Schema Name: " + this.newSchemaName);
+    let schemaDocument = {
+      _id: "schema:" + this.newSchemaName + ":v1",
+      schemaDocId: "schema:schema:v1",
+      name: this.newSchemaName,
+      jsonSchema: {},
+      uiSchema: {},
+      actions: {}
+    };
+    this.database.put(schemaDocument).then(_ => {
+      this.schemas.push(schemaDocument);
+      this.newSchemaName = "";
     })
   }
 
