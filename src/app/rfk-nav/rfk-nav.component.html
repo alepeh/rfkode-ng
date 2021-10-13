@@ -7,6 +7,12 @@
     <mat-nav-list>
       <a mat-list-item routerLink="/table/{{schema._id}}" routerLinkActive="active" *ngFor="let schema of schemas">{{schema.name}}</a>
     </mat-nav-list>
+    <mat-form-field class="example-form-field" appearance="fill">
+      <input matInput type="text" [(ngModel)]="newSchemaName" placeholder="Neues Schema...">
+      <button *ngIf="newSchemaName" matSuffix mat-icon-button aria-label="Save" (click)="newSchema()">
+        <mat-icon>save</mat-icon>
+      </button>
+    </mat-form-field>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">

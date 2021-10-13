@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RfkNavComponent } from './rfk-nav/rfk-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input'; 
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +26,7 @@ import { ActionModalComponent } from './action-modal/action-modal.component';
 import { ActionHttpComponent } from './action-http/action-http.component';
 import { SyncDetailComponent } from './sync-detail/sync-detail.component';
 import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { DeleteConfirmComponent } from './delete-confirm/delete-confirm.componen
     MatIconModule,
     MatListModule,
     MatProgressSpinnerModule,
+    MatInputModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
